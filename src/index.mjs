@@ -171,7 +171,7 @@ const updateManageUsers = (users) => {
       `<div class="manage-users-table__row">
       <div>
       <img
-      src="../public/assets/alex-suprun-ZHvM3XIOHoE-unsplash.jpg"
+      src="../public/assets/image.jpg"
       alt="profile-default"
       width="35px"
       height="35px"
