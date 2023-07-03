@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;0,800;1,300&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet" />
+    <title>Argentina programa CRUD</title>
+    <script type="module" defer src="./src/index.mjs"></script>
+  </head>
+  <body>
+    <div class="root">
+      <header class="header">
+        <label for="check" id="hamburger-menu">
+          <input type="checkbox" id="check" />
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+        <div class="header__title">
+          <h1>Admin dashboard</h1>
+        </div>
+        <button
+          class="material-symbols-outlined arrow-button"
+          id="button-toggler">
+          Sunny
+        </button>
+        <div class="header__user">
+          <div class="header__user--info">
+            <p style="font-weight: bold"><i class="admin-status"></i>Online</p>
+            <p>Admin</p>
+          </div>
+          <div class="header__user--image">
+            <img
+              src="../public/assets/alex-suprun-ZHvM3XIOHoE-unsplash.jpg"
+              alt="profile-default"
+              width="35px"
+              height="35px" />
+          </div>
+        </div>
+      </header>
+      <div class="full-section">
+        <aside class="sidebar">
+          <section class="sidebar__dashboard">
+            <p style="font-weight: bold; color: gray">Dashboard</p>
+            <ul>
+              <button class="home-button">
+                <li class="is-active">
+                  <span class="material-symbols-outlined">home</span
+                  ><span class="nav-span">Home</span>
+                </li>
+              </button>
+              <li>
+                <span class="material-symbols-outlined">Analytics</span
+                ><span class="nav-span">Analytics</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">Monitoring</span
+                ><span class="nav-span">Sales</span>
+              </li>
+            </ul>
+          </section>
+          <section class="sidebar__manage">
+            <p style="font-weight: bold; color: gray">Manage</p>
+            <ul>
+              <button class="users-button">
+                <li>
+                  <span class="material-symbols-outlined">Person</span
+                  ><span class="nav-span">Users</span>
+                </li>
+              </button>
+              <li>
+                <span class="material-symbols-outlined">Settings</span
+                ><span class="nav-span">Admins</span>
+              </li>
+              <li>
+                <span class="material-symbols-outlined">Payments</span
+                ><span class="nav-span">Dues</span>
+              </li>
+            </ul>
+          </section>
+        </aside>
+        <main class="main"></main>
+      </div>
+    </div>
+  </body>
+</html>
