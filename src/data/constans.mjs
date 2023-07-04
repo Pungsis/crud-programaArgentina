@@ -32,19 +32,30 @@ export const form = `
   <form id="form">
     <div class="input-form-container">
       <label id="name"> Name </label>
-      <input type="text" placeholder="name.." name="name" id="name" />
+      <input type="text" placeholder="name.." name="name" id="name" required/>
     </div>
     <div class="input-form-container">
       <label id="lastname"> Last name </label>
-      <input type="text" placeholder="last name..." name="lastname" id="lastname" />
+      <input type="text" placeholder="last name..." name="lastname" id="lastname" required/>
     </div>
     <div class="input-form-container">
       <label id="email"> email </label>
-      <input type="text" placeholder="email..." name="email" id="email" />
+      <input type="text" placeholder="email..." name="email" id="email" required/>
     </div>
     <div class="input-form-container">
-      <label id="admin"> its admin? </label>
-      <input type="checkbox" id="admin" name="admin"/>
+    <p>Choose role</p>
+    <div>
+    <input type="radio" id="cadete" name="role" value="Cadete" required/>
+    <label for="Cadete" > Cadete </label>
+    </div>
+    <div>
+    <input type="radio" id="Socio" name="role" value="Socio" required/>
+    <label for="Socio" > Socio </label>
+    </div>
+    <div>
+    <input type="radio" id="Adherente" name="role" value="Adherente" required/>
+    <label for="Adherente" > Adherente </label>
+    </div>
     </div>
     <button type="submit" id="form-button">Create</button>
   </form>
@@ -55,6 +66,16 @@ export const manageUsersHtml = `
 <div class="manage-users-table__column">| users</div>
 <div class="manage-users-table__column">| email</div>
 <div class="manage-users-table__column">| Join</div>
-<div class="manage-users-table__column">| isAdmin</div>
+<div class="manage-users-table__column">| Customer role</div>
 <div class="manage-users-table__column">| Action</div>
 </div>`;
+
+export const manageDuesHtml = `
+<div class="manage-users-table">
+<div class="manage-users-table__column">| users</div>
+<div class="manage-users-table__column">| Status</div>
+<div class="manage-users-table__column">| Next Payment</div>
+<div class="manage-users-table__column">| Grant access?</div>
+<div class="manage-users-table__column">| </div>
+</div>
+`;

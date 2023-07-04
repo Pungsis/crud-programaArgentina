@@ -9,7 +9,7 @@ export const UserData = [
     lastname: "Doe",
     email: "fakeemail123@gmail.com",
     member: true,
-    join: getDate(),
+    join: getDate().currentFullDate,
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const UserData = [
     lastname: "Terry",
     email: "fake2email123@gmail.com",
     member: false,
-    join: getDate(),
+    join: getDate().currentFullDate,
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ export const UserData = [
     lastname: "Marcus",
     email: "fake3email123@gmail.com",
     member: true,
-    join: getDate(),
+    join: getDate().currentFullDate,
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const UserData = [
     lastname: "Marcus",
     email: "fake3email123@gmail.com",
     member: true,
-    join: getDate(),
+    join: getDate().currentFullDate,
   },
   {
     id: 5,
@@ -41,6 +41,6 @@ export const UserData = [
     lastname: "Marcus",
     email: "fake3email123@gmail.com",
     member: true,
-    join: getDate(),
+    join: getDate().currentFullDate,
   },
 ];

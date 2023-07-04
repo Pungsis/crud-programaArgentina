@@ -1,4 +1,8 @@
 export const getDate = () => {
   let date = new Date();
-  return date.toLocaleDateString();
+
+  return {
+    currentFullDate: date.toLocaleDateString(),
+    joinMonth: date.getMonth(),
+  };
 };

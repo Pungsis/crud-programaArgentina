@@ -1,7 +1,16 @@
 import { UserData } from "./data/UserData.mjs";
 import Storage from "./modules/Storage.mjs";
-import { mainHtmlConstant, form, manageUsersHtml } from "./data/constans.mjs";
+import {
+  mainHtmlConstant,
+  form,
+  manageUsersHtml,
+  manageDuesHtml,
+} from "./data/constans.mjs";
 import { getDate } from "./utils/DateFormatter.mjs";
+
+let { currentFullDate, joinMonth } = getDate();
+
+console.log(currentFullDate);
 
 let clubUsers = Storage.getUsers() || UserData;
 let currentId =
@@ -23,6 +32,10 @@ const html = d.documentElement;
 const themeToggler = d.querySelector("#button-toggler");
 const sidebar = d.querySelector(".sidebar");
 const hamburgerMenu = d.querySelector("#hamburger-menu input");
+const duesButton = d.querySelector(".dues-button");
+const duesButtonList = d.querySelector(".dues-button li");
+const modalButton = d.querySelector(".close-modal-button");
+const modalBox = d.querySelector(".user-details-modal-box");
 
 hamburgerMenu.addEventListener("click", () => {
   sidebar.classList.toggle("sidebar-open");
@@ -47,8 +60,10 @@ themeToggler.addEventListener("click", () => {
   let currentTheme = html.getAttribute("data-theme");
   if (currentTheme === "light") {
     currentTheme = "dark";
+    themeToggler.textContent = "BedTime";
   } else {
     currentTheme = "light";
+    themeToggler.textContent = "Sunny";
   }
 
   html.setAttribute("data-theme", currentTheme);
@@ -99,6 +114,7 @@ const handleFormSubmit = (e) => {
 
   const formData = new FormData(e.target);
   const formOBj = Object.fromEntries(formData);
+
   clubUsers = handleAddUser(formOBj);
   console.log(clubUsers);
 
@@ -114,6 +130,10 @@ const handleSearch = (e) => {
       user.lastname.toLowerCase().includes(value) ||
       `${user.name} ${user.lastname}`.toLowerCase().includes(value)
   );
+  if (duesButtonList.classList.contains("is-active")) {
+    updateDues(filteredUsersSearch);
+    return;
+  }
   updateManageUsers(filteredUsersSearch);
 };
 
@@ -121,6 +141,76 @@ const handleDelete = (userId) => {
   const filteredUsers = clubUsers.filter((user) => user.id !== userId);
   clubUsers = [...filteredUsers];
   updateManageUsers(filteredUsers);
+};
+
+const updateDues = (users) => {
+  const mainE = d.querySelector(".main > *");
+
+  if (!!!mainE) {
+    const userInputsDiv = d.createElement("div");
+    const inputElement = d.createElement("input");
+
+    userInputsDiv.setAttribute("class", "user-inputs");
+
+    inputElement.setAttribute("type", "text");
+    inputElement.setAttribute("placeholder", "search...");
+
+    userInputsDiv.insertAdjacentElement("beforeend", inputElement);
+    main.insertAdjacentElement("afterbegin", userInputsDiv);
+  }
+  const tableContainer = d.querySelector(".manage-users-table");
+
+  if (!!!tableContainer) {
+    main.innerHTML += manageDuesHtml;
+  } else {
+    main.removeChild(tableContainer);
+
+    mainE.insertAdjacentHTML("afterend", manageDuesHtml);
+  }
+
+  const searchInput = d.querySelector(".user-inputs > input");
+  searchInput.addEventListener("input", handleSearch);
+
+  users.forEach((user) => {
+    const tableContainer = d.querySelector(".manage-users-table");
+    tableContainer.insertAdjacentHTML(
+      "beforeend",
+      `<div class="manage-users-table__row">
+      <div>
+      <img
+      src="./public/assets/image.jpg"
+      alt="profile-default"
+      width="35px"
+      height="35px"
+      style="border-radius: 50%; transform: translateY(-5px)" />
+            <span
+              style="display: inline-block; transform: translateY(-17px)"
+              >${user.name} ${user.lastname}</span
+              >
+              </div>
+              <p>${user.status}</p>
+              <p>${user.nextpayment}</p>
+              <button class="access-button">${
+                user.access ? "Granted" : "Denied"
+              }</button>
+              <div class="table-buttons" id="table-buttons-${user.id}">
+              <button class="details-button">View details</button>
+              </div>`
+    );
+    const accessButton = d.querySelector(".access-button");
+    const detailsButton = d.querySelector(".details-button");
+    user.access ? null : accessButton.classList.add("denied");
+    accessButton.addEventListener("click", () => {
+      accessButton.classList.toggle("denied");
+      accessButton.classList.contains("denied")
+        ? (accessButton.textContent = "Denied")
+        : (accessButton.textContent = "Granted");
+    });
+
+    detailsButton.addEventListener("click", () => {
+      modalBox.style = "display: flex";
+    });
+  });
 };
 
 const updateManageUsers = (users) => {
@@ -183,7 +273,7 @@ const updateManageUsers = (users) => {
               </div>
               <p>${user.email}</p>
               <p>${user.join}</p>
-              <p>yes</p>
+              <p>${user.role}</p>
               <div class="table-buttons" id="table-buttons-${user.id}">
               </div>`
     );
@@ -217,9 +307,8 @@ const updateManageUsers = (users) => {
 };
 
 const handleAddUser = (userInput) => {
-  const { name, lastname, email } = userInput;
+  const { name, lastname, email, role } = userInput;
   currentId++;
-  console.log(currentId);
 
   const newUser = {
     id: currentId,
@@ -227,7 +316,24 @@ const handleAddUser = (userInput) => {
     lastname: lastname,
     email: email,
     member: true,
-    join: getDate(),
+    join: currentFullDate,
+    role: role,
+    nextpayment: "30/20/1992",
+    status: "active",
+    access: false,
+    payments: {
+      january: "paid",
+      february: "paid",
+      march: "paid",
+      april: "paid",
+      june: "paid",
+      july: "paid",
+      august: "paid",
+      september: "paid",
+      october: "paid",
+      november: "paid",
+      december: "paid",
+    },
   };
   return [...clubUsers, newUser];
 };
@@ -286,6 +392,9 @@ homeButton.addEventListener("click", () => {
   if (usersButtonList.classList.contains("is-active")) {
     usersButtonList.classList.remove("is-active");
   }
+  if (duesButtonList.classList.contains("is-active")) {
+    duesButtonList.classList.remove("is-active");
+  }
   clearContent();
   updateHome();
   const updatedTableWrapper = d.querySelector(".table-wrapper");
@@ -302,10 +411,36 @@ usersButton.addEventListener("click", () => {
   if (homeButtonList.classList.contains("is-active")) {
     homeButtonList.classList.remove("is-active");
   }
+  if (duesButtonList.classList.contains("is-active")) {
+    duesButtonList.classList.remove("is-active");
+  }
+
   clearContent();
   updateManageUsers(clubUsers);
+});
+
+duesButton.addEventListener("click", () => {
+  hamburgerMenu.checked === true
+    ? (hamburgerMenu.checked = false)
+    : (hamburgerMenu.checked = true);
+
+  sidebar.classList.toggle("sidebar-open");
+  duesButtonList.classList.add("is-active");
+  if (homeButtonList.classList.contains("is-active")) {
+    homeButtonList.classList.remove("is-active");
+  }
+  if (usersButtonList.classList.contains("is-active")) {
+    usersButtonList.classList.remove("is-active");
+  }
+
+  clearContent();
+  updateDues(clubUsers);
 });
 
 const clearContent = () => {
   main.innerHTML = "";
 };
+
+modalButton.addEventListener("click", () => {
+  modalBox.style = "display: none";
+});
