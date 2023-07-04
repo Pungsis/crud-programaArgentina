@@ -190,17 +190,22 @@ const updateDues = (users) => {
               </div>
               <p>${user.status}</p>
               <p>${user.nextpayment}</p>
-              <button class="access-button">${
-                user.access ? "Granted" : "Denied"
-              }</button>
+              <button class="access-button" id="access-button-${user.id}">${
+        user.access ? "Granted" : "Denied"
+      }</button>
               <div class="table-buttons" id="table-buttons-${user.id}">
               <button class="details-button">View details</button>
               </div>`
     );
-    const accessButton = d.querySelector(".access-button");
-    const detailsButton = d.querySelector(".details-button");
+    const accessButton = d.querySelector(`#access-button-${user.id}`);
+    const detailsButton = d.querySelector(
+      `#table-buttons-${user.id} .details-button`
+    );
+    console.log(accessButton);
+
     user.access ? null : accessButton.classList.add("denied");
     accessButton.addEventListener("click", () => {
+      user.access = !user.access;
       accessButton.classList.toggle("denied");
       accessButton.classList.contains("denied")
         ? (accessButton.textContent = "Denied")
